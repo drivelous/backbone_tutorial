@@ -9,8 +9,8 @@ Congo = {
 
         //start it off
         Congo.start();
-        })
     },
+
     start : function() {
         Congo.databases.fetch();
     }
