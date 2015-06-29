@@ -29,30 +29,26 @@ Congo.ListView = Backbone.View.extend({
     }
 });
 
-Congo.DetailsView = Backbone.View.extend({
-
-	initialize : function() {
-		this.render();
-	},
+Congo.Layout = Backbone.View.extend({
 
 	render : function() {
-		// load up our details and options view
-		var listView = new Congo.DatabaseListView({ collection : Congo.databases });
-		var optionView = new Congo.DatabaseOptionView();
-
 		// add the details template to the dom
-		var templateSource = $("#db-details-template").html();
+		var templateSource = $(this.template).html();
 		this.$el.append(_.template(templateSource));
 
-		// render them to this el
-		var dbDetails = this.$("#database-list");
-		var dbOptions = this.$("#database-options");
+		var self = this;
 
-		dbDetails.append(listView.render().el);
-		dbOptions.append(optionView.render().el);
+		// loop the regions and make them available on this
+		_.each(this.regions, function (selector, name) {
+			// explicitly declare each region as a jQuery selector
+			// scoped to this view
+			self[name]=self.$(selector);
+		});
 
-		this.$el.append(dbDetails);
-		this.$el.append(dbOptions);
-		return this;
+		//now, emit an event that says the DOM template is loaded
+		//and that we have explicit jquery objects set for regions
+		if (self.layoutReady) self.layoutReady();
+
+		return self;
 	}
 })
