@@ -4,12 +4,17 @@
 
     #details
 
+script#collection-details-template(type="text/backbone")
+    .row
+        .span12
+            #collection-list.span8
+            #collection-options.span3
+
 script#db-details-template(type="text/backbone")
     .row
         .span12
-            #database-list.span9
+            #database-list.span8
             #database-options.span3
-
 
 script#new-db-template(type="text/backbone")
     form#addDb
@@ -18,12 +23,28 @@ script#new-db-template(type="text/backbone")
             i.icon.icon-plus-sign
             | Add Db
 
+script#new-collection-template(type="text/backbone")
+    form#addCollection
+        input(id='newCollection', type="text")
+        button.btn(type="submit")
+            i.icon.icon-plus-sign
+            | Add
+
+script#collection-list-template(type="text/backbone")
+    td(width=60)
+        img(src="/img/collections.png", style="height:24px")
+    td
+        h4
+            a(href="#", data-collection!='<%=name%>') <%=name%>
+    td
+        button.btn
+
 script#database-list-template(type="text/backbone")
     td(width=60)
         img(src="/img/collections.png", style="height:24px")
     td
         h4
-            a(href="#") <%=name%>
+            a(href="#", data-db!='<%=name%>') <%=name%>
     td
         button.btn.delete-collection
             i.icon.icon-remove
@@ -33,8 +54,9 @@ script(src="/javascripts/congo/index.js")
 script(src="/javascripts/congo/base.js")
 script(src="/javascripts/congo/nav.js")
 script(src="/javascripts/congo/database.js")
+script(src="/javascripts/congo/collections.js")
 
 script
     $(function(){
-        Congo.init();
+        Congo.start();
     })

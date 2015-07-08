@@ -17,7 +17,7 @@ Congo.DatabaseCollection = Backbone.Collection.extend({
     url : "/mongo-api/dbs"
 });
 
-Congo.DatabaseOptionView = Congo.View.extend({
+Congo.DatabaseOptionView = Congo.ItemView.extend({
     initialize: function() {
         this.render();
     },
@@ -37,20 +37,19 @@ Congo.DatabaseOptionView = Congo.View.extend({
     }
 });
 
-Congo.DatabaseView = Congo.View.extend({
+Congo.DatabaseView = Congo.ItemView.extend({
     tagName: "tr",
     template : "#database-list-template",
     events: {
-        "click button" : "removeDb"
+        "click button" : "remove",
+        "click a" : "showDb"
     },
-
-    removeDb: function() {
-        var confirmed = confirm("Delete this database? Oh man that's sick.");
-        if (confirmed) {
-            this.model.destroy();
-            Congo.databases.remove(this.model);
-        }
-    },
+    showDb: function(ev) {
+        ev.preventDefault();
+        var db = $(ev.currentTarget).data("db");
+        Congo.router.navigate(db, true);
+        // we have the DB... now what?
+    }
 });
 
 Congo.DatabaseListView = Congo.ListView.extend({
@@ -58,3 +57,19 @@ Congo.DatabaseListView = Congo.ListView.extend({
     className: "table table-striped",
     ItemView : Congo.DatabaseView
 });
+
+Congo.DatabaseLayoutView = Congo.Layout.extend({
+    template : "#db-details-template",
+    regions : {
+        databaseList : "#database-list",
+        databaseOptions : "#database-options"
+    },
+
+    layoutReady : function() {
+        var dbListView = new Congo.DatabaseListView({ collection : this.collection });
+        var optionView = new Congo.DatabaseOptionView({});
+
+        this.databaseList.append(dbListView.render().el);
+        this.databaseOptions.append(optionView.render().el);
+    }
+})
