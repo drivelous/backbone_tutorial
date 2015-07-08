@@ -10,6 +10,15 @@ Congo.View = Backbone.View.extend({
     }
 });
 
+Congo.ItemView = Congo.View.extend({
+	remove: function() {
+		var confirmed = confirm("Delete it? You're effing nuts!");
+		if (confirmed) {
+			this.model.destroy();
+		}
+	}
+});
+
 Congo.ListView = Backbone.View.extend({
     initialize : function() {
         this.collection.bind("add", this.render, this);
