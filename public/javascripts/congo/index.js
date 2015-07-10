@@ -11,6 +11,11 @@ Congo = {
         Congo.breadcrumbs = new Congo.BreadcrumbView({ el: "#nav"});
         Congo.collectionLayout = new Congo.CollectionLayoutView({ collection: Congo.currentCollection });
         Congo.dbLayout = new Congo.DatabaseLayoutView({ collection: Congo.databases });
+
+        Congo.appLayout = new Congo.AppLayout({
+            el : "#app",
+            detailRegion : "#details"
+        })
     },
 
     start : function() {
@@ -30,17 +35,16 @@ Congo.Router = Backbone.Router.extend({
     },
 
     showDatabase : function(db){
-
-        Congo.collectionLayout.render();
-        $("#details").empty();
-        $("#details").append(Congo.collectionLayout.el);
+        Congo.currentDatabase = db;
+        Congo.appLayout.renderDetails(Congo.collectionLayout);
         Congo.currentCollection.fetch();
     },
     
     index : function () {
-        Congo.dbLayout.render();
-        $("#details").empty();
-        $("#details").append(Congo.dbLayout.el);
+        // Congo.dbLayout.render();
+        // $("#details").empty();
+        // $("#details").append(Congo.dbLayout.el);
+        Congo.appLayout.renderDetails(Congo.dbLayout);
         Congo.databases.fetch();
     }
 });

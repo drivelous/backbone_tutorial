@@ -60,4 +60,17 @@ Congo.Layout = Backbone.View.extend({
 
 		return self;
 	}
-})
+});
+
+Congo.AppLayout = Backbone.View.extend({
+
+	renderNavigator : function() {
+
+	},
+
+	renderDetails : function(detailView) {
+		this.$(this.options.detailRegion).empty();
+		detailView.render();
+		this.$(this.options.detailRegion).append(detailView.el);
+	}
+});
