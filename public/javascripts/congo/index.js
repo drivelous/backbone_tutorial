@@ -12,9 +12,11 @@ Congo = {
         Congo.collectionLayout = new Congo.CollectionLayoutView({ collection: Congo.currentCollection });
         Congo.dbLayout = new Congo.DatabaseLayoutView({ collection: Congo.databases });
 
+        // the App Layout
         Congo.appLayout = new Congo.AppLayout({
             el : "#app",
-            detailRegion : "#details"
+            detailRegion : "#details",
+            navigatorView: Congo.breadcrumbs
         })
     },
 
@@ -41,9 +43,6 @@ Congo.Router = Backbone.Router.extend({
     },
     
     index : function () {
-        // Congo.dbLayout.render();
-        // $("#details").empty();
-        // $("#details").append(Congo.dbLayout.el);
         Congo.appLayout.renderDetails(Congo.dbLayout);
         Congo.databases.fetch();
     }

@@ -64,8 +64,12 @@ Congo.Layout = Backbone.View.extend({
 
 Congo.AppLayout = Backbone.View.extend({
 
-	renderNavigator : function() {
+	initialize: function() {
+		this.renderNavigator();
+	},
 
+	renderNavigator : function() {
+		this.options.navigatorView.render();
 	},
 
 	renderDetails : function(detailView) {
