@@ -1,16 +1,19 @@
-Congo.MongoCollection = Backbone.Model.extend({
-	url : function(){
-		return "/mongo-api/" + Congo.currentDatabase + "/" + this.id;
-	},
-
-	idAttribute : "name"
+Congo.MongoDocument = Backbone.Model.extend({
+	idAttribute : "_id",
+	url : function() {
+		var baseUrl = "/mongo-api/" + Congo.currentDatabase + "/" + Congo.selectedCollection;
+		if (this.isNew()) {
+			return baseUrl;
+		} else {
+			return baseUrl + "/" + this.id;
+		}
+	}
 });
 
-Congo.MongoCollections = Backbone.Collection.extend({
-	model: Congo.MongoCollection,
-	url: function () {
-		var url = "/mongo-api/" + Congo.currentDatabase;
-		return url;
+Congo.MongoDocuments = Backbone.Collection.extend({
+	model: Congo.MongoDocument,
+	url : function() {
+		return "/mongo-api" + Congo.currentDatabase + "/" + Congo.selectedCollection;
 	}
 });
 
@@ -52,16 +55,16 @@ Congo.CollectionOptionView = Congo.View.extend({
 	}
 });
 
-Congo.CollectionLayoutView = Congo.Layout.extend({
-	template: "#collection-details-template",
+Congo.DocumentLayoutView = Congo.Layout.extend({
+	template: "#document-details-template",
 	regions: {
-		collectionList: "#collection-list",
-		collectionOptions: "#collection-options"
+		documentList: "#collection-list",
+		documentOptions: "#collection-options"
 	},
 	layoutReady: function () {
-		var collectionListView = new Congo.CollectionListView({ collection: this.collection });
+		var documentListListView = new Congo.CollectionListView({ collection: this.collection });
 		var optionView = new Congo.CollectionOptionView({});
-		this.collectionList.append(collectionListView.render().el);
-		this.collectionOptions.append(optionView.render().el);
+		this.documentList.append(collectionListView.render().el);
+		this.documentOptions.append(optionView.render().el);
 	}
 })

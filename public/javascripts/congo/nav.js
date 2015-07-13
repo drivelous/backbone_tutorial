@@ -5,7 +5,7 @@ Congo.BreadcrumbView = Backbone.View.extend({
     },
 
     renderIndex : function () {
-        console.log("index router");
+        $(this.el).empty();
         $(this.el).append("<li><h3>DATABASES</a></h3></li>");
         return this;
     },
@@ -22,7 +22,7 @@ Congo.BreadcrumbView = Backbone.View.extend({
     },
 
     navIndex : function(ev) {
-        ev.preventDefault();
+        ev.preventDefault(ev);
         Congo.router.navigate("", true);
     }
 });

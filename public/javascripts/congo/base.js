@@ -41,6 +41,9 @@ Congo.ListView = Backbone.View.extend({
 Congo.Layout = Backbone.View.extend({
 
 	render : function() {
+
+		this.$el.empty();
+
 		// add the details template to the dom
 		var templateSource = $(this.template).html();
 		this.$el.append(_.template(templateSource));
