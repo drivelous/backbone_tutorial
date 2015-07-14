@@ -13,7 +13,7 @@ Congo.MongoDocument = Backbone.Model.extend({
 Congo.MongoDocuments = Backbone.Collection.extend({
 	model: Congo.MongoDocument,
 	url : function() {
-		return "/mongo-api" + Congo.currentDatabase + "/" + Congo.selectedCollection;
+		return "/mongo-api/" + Congo.currentDatabase + "/" + Congo.selectedCollection;
 	}
 });
 
@@ -32,19 +32,19 @@ Congo.CollectionView = Congo.ItemView.extend({
 	}
 });
 
-Congo.CollectionListView = Congo.ListView.extend({
-	tagName: "table",
-	className: "table table-striped",
-	ItemView : Congo.CollectionView
+Congo.DocumentListView = Congo.ListView.extend({
+	tagName: "ul",
+	className: "thumbnails",
+	ItemView : Congo.DocumentView
 });
 
-Congo.CollectionOptionView = Congo.View.extend({
+Congo.DocumentOptionView = Congo.View.extend({
 	initialize: function () {
 		this.render();
 	},
-	template : "#new-collection-template",
+	template : "#new-document-template",
 	events: {
-		"submit form": "addCollection"
+		"submit form": "addDocument"
 	},
 	addCollection: function (event) {
 		event.preventDefault();

@@ -16,7 +16,7 @@ Congo.MongoCollections = Backbone.Collection.extend({
 
 Congo.CollectionView = Congo.ItemView.extend({
 	tagName: "tr",
-	template: "#database-list-template",
+	template: "#collection-list-template",
 	events: {
 		"click button": "remove",
 		"click a": "show"

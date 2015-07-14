@@ -2,6 +2,7 @@ Congo.BreadcrumbView = Backbone.View.extend({
     initialize : function(){
         Congo.router.on("route:index", this.renderIndex, this);
         Congo.router.on("route:showDatabase", this.renderDatabase, this);
+        Congo.router.on("route:showCollection", this.renderCollection, this);
     },
 
     renderIndex : function () {
@@ -12,17 +13,34 @@ Congo.BreadcrumbView = Backbone.View.extend({
 
     renderDatabase : function (db) {
         this.$el.empty();
-        this.$el.append("<li><h3><a href='#' id='summary'>DATABASES</a><span class='divider'></span></h3></li>");
+        this.$el.append("<li><h3><a href='#' id='summary'>DATABASES</a><span class='divider'>/</span></h3></li>");
         this.$el.append("<li><h3>" + db + "</h3></li>");
         return this;
     },
 
+    renderCollection : function (db, collection) {
+        this.$el.empty();
+        this.$el.append("<li><h3><a href='#' id='summary'>DATABASES</a><span class='divider'>/</span></h3></li>");
+        this.$el.append("<li><h3>" + db + "</h3></li>");
+        this.$el.append("<li><h3>" + collection + "</h3></li>");
+        return this;
+    },
+
     events: {
-        "click #summary" : "navIndex"
+        "click #summary" : "navIndex",
+        "click #db-details": "navDb"
+    },
+
+    navDb : function (ev) {
+        ev.preventDefault();
+        console.log($(ev.currentTarget).data("db"));
+        var dbName = $(ev.currentTarget).data("db");
+        console.log(dbName);
+        Congo.router.navigate(dbName, true);
     },
 
     navIndex : function(ev) {
-        ev.preventDefault(ev);
+        ev.preventDefault();
         Congo.router.navigate("", true);
     }
 });
