@@ -16,6 +16,13 @@ script#db-details-template(type="text/backbone")
             #database-list.span8
             #database-options.span3
 
+script#document-details-template(type="text/backbone")
+    .row
+        .span12
+            .row
+                #document-list.span8
+                #document-options.span3
+
 script#new-db-template(type="text/backbone")
     form#addDb
         input(id='newDb', type="text")
@@ -50,7 +57,7 @@ script#database-list-template(type="text/backbone")
             i.icon.icon-remove
             | delete
 
-script(id='new-document-template', type="text/template")
+script(id="new-document-template", type="text/template")
     button.btn(id="addDocument")
     i.icon.icon-plus-sign
     | Add

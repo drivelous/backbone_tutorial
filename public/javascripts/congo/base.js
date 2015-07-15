@@ -45,7 +45,11 @@ Congo.Layout = Backbone.View.extend({
 		this.$el.empty();
 
 		// add the details template to the dom
+		console.log("this.template");
+		console.log(this.template);
 		var templateSource = $(this.template).html();
+		console.log("yeah");
+		console.log(templateSource);
 		this.$el.append(_.template(templateSource));
 
 		var self = this;

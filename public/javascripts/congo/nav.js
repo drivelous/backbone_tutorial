@@ -33,9 +33,8 @@ Congo.BreadcrumbView = Backbone.View.extend({
 
     navDb : function (ev) {
         ev.preventDefault();
-        console.log($(ev.currentTarget).data("db"));
+        // console.log($(ev.currentTarget).data("db"));
         var dbName = $(ev.currentTarget).data("db");
-        console.log(dbName);
         Congo.router.navigate(dbName, true);
     },
 

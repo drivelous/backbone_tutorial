@@ -17,9 +17,9 @@ Congo.MongoDocuments = Backbone.Collection.extend({
 	}
 });
 
-Congo.CollectionView = Congo.ItemView.extend({
+Congo.DocumentView = Congo.ItemView.extend({
 	tagName: "tr",
-	template: "#database-list-template",
+	template: "#document-list-template",
 	events: {
 		"click button": "remove",
 		"click a": "show"
@@ -58,8 +58,8 @@ Congo.DocumentOptionView = Congo.View.extend({
 Congo.DocumentLayoutView = Congo.Layout.extend({
 	template: "#document-details-template",
 	regions: {
-		documentList: "#collection-list",
-		documentOptions: "#collection-options"
+		documentList: "#document-list",
+		documentOptions: "#document-options"
 	},
 	layoutReady: function () {
 		var documentListListView = new Congo.CollectionListView({ collection: this.collection });

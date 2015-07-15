@@ -47,7 +47,6 @@ Congo.Router = Backbone.Router.extend({
     showCollection : function(db, collection) {
         Congo.selectedCollection = collection;
         Congo.currentDatabase = db;
-        console.log("Collection is " + collection);
         Congo.appLayout.renderDetails(Congo.documentLayout);
         Congo.currentDocuments.fetch();
     },
