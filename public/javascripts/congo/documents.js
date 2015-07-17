@@ -7,6 +7,21 @@ Congo.MongoDocument = Backbone.Model.extend({
 		} else {
 			return baseUrl + "/" + this.id;
 		}
+	},
+
+	descriptor: function () {
+		if(this.get("name"))
+			return this.get("name");
+		if(this.get("sku"))
+			return this.get("sku");
+		if(this.get("slug"))
+			return this.get("slug");
+		else if(this.get("title"))
+			return this.get("title");
+		else if(this.get("email"))
+			return this.get("email");
+		else
+			return this.get("_id");
 	}
 });
 
@@ -19,7 +34,7 @@ Congo.MongoDocuments = Backbone.Collection.extend({
 
 Congo.DocumentView = Congo.ItemView.extend({
 	tagName: "tr",
-	template: "#document-list-template",
+	template: "#document-item-template",
 	events: {
 		"click button": "remove",
 		"click a": "show"
@@ -29,6 +44,14 @@ Congo.DocumentView = Congo.ItemView.extend({
 		ev.preventDefault();
 		var collectionName = $(ev.currentTarget).data("collection");
 		Congo.router.navigate(Congo.currentDatabase + "/" + collectionName, true);
+	},
+
+	render: function () {
+		var source = $(this.template).html();
+		var data = {descriptor: this.model.descriptor()};
+		var compiled = _.template(source, data);
+		this.$el.html(compiled);
+		return this
 	}
 });
 
@@ -46,12 +69,10 @@ Congo.DocumentOptionView = Congo.View.extend({
 	events: {
 		"submit form": "addDocument"
 	},
-	addCollection: function (event) {
+
+	addDocument: function (event) {
 		event.preventDefault();
-		var newCollectionName = $("#newCollection").val();
-		var newCollection = new Congo.MongoCollection({ name: newCollectionName });
-		newCollection.save();
-		Congo.currentCollection.add(newCollection);
+		Congo.navDocument("new");
 	}
 });
 
@@ -63,8 +84,8 @@ Congo.DocumentLayoutView = Congo.Layout.extend({
 	},
 	layoutReady: function () {
 		var documentListListView = new Congo.CollectionListView({ collection: this.collection });
-		var optionView = new Congo.CollectionOptionView({});
-		this.documentList.append(collectionListView.render().el);
+		var optionView = new Congo.DocumentOptionView({});
+		this.documentList.append(documentListListView.render().el);
 		this.documentOptions.append(optionView.render().el);
 	}
 })

@@ -21,8 +21,8 @@ Congo.BreadcrumbView = Backbone.View.extend({
     renderCollection : function (db, collection) {
         this.$el.empty();
         this.$el.append("<li><h3><a href='#' id='summary'>DATABASES</a><span class='divider'>/</span></h3></li>");
-        this.$el.append("<li><h3>" + db + "</h3></li>");
-        this.$el.append("<li><h3>" + collection + "</h3></li>");
+        this.$el.append("<li><h3><a href='#' id='db-details' data-db='" + db + "'>" + db + "</a><span class='divider'>/</span></h3></li>");
+        this.$el.append("<li><h3>" + collection + "</h3></li>"); 
         return this;
     },
 
@@ -33,7 +33,6 @@ Congo.BreadcrumbView = Backbone.View.extend({
 
     navDb : function (ev) {
         ev.preventDefault();
-        // console.log($(ev.currentTarget).data("db"));
         var dbName = $(ev.currentTarget).data("db");
         Congo.router.navigate(dbName, true);
     },

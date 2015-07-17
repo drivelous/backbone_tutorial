@@ -6,15 +6,13 @@
 
 script#collection-details-template(type="text/backbone")
     .row
-        .span12
-            #collection-list.span8
-            #collection-options.span3
+        #collection-list.span8
+        #collection-options.span3
 
 script#db-details-template(type="text/backbone")
     .row
-        .span12
-            #database-list.span8
-            #database-options.span3
+        #database-list.span8
+        #database-options.span3
 
 script#document-details-template(type="text/backbone")
     .row
@@ -28,7 +26,7 @@ script#new-db-template(type="text/backbone")
         input(id='newDb', type="text")
         button.btn(type="submit")
             i.icon.icon-plus-sign
-            | Add Db
+            | Add
 
 script#new-collection-template(type="text/backbone")
     form#addCollection
@@ -45,6 +43,8 @@ script#collection-list-template(type="text/backbone")
             a(href="#", data-collection!='<%=name%>') <%=name%>
     td
         button.btn
+            i.icon.icon-remove
+            | delete
 
 script#database-list-template(type="text/backbone")
     td(width=60)
@@ -53,19 +53,23 @@ script#database-list-template(type="text/backbone")
         h4
             a(href="#", data-db!='<%=name%>') <%=name%>
     td
-        button.btn.delete-collection
+        button.btn
             i.icon.icon-remove
             | delete
 
 script(id="new-document-template", type="text/template")
     button.btn(id="addDocument")
-    i.icon.icon-plus-sign
-    | Add
+        i.icon.icon-plus-sign
+        | Add
 
 script(id="document-list-template", type="text/template")
     a(href="#")
         li.document.thumbnail(data-html!='<%=doc%>')
-            p DOC
+            p <%=descriptor%>
+
+script(id="document-item-template", type="text/template")
+    a(href="#")
+        p <%=descriptor%>
 
 script(src="/javascripts/congo/index.js")
 script(src="/javascripts/congo/base.js")
