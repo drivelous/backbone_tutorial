@@ -34,7 +34,7 @@ Congo.MongoDocuments = Backbone.Collection.extend({
 
 Congo.DocumentView = Congo.ItemView.extend({
 	tagName: "tr",
-	template: "#document-item-template",
+	template: "#document-list-template",
 	events: {
 		"click button": "remove",
 		"click a": "show"
