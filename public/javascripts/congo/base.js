@@ -66,6 +66,24 @@ Congo.Layout = Backbone.View.extend({
 });
 
 Congo.AppLayout = Backbone.View.extend({
+	hideEverything : function() {
+		this.$(this.ooptions.detailRegion).empty();
+		this.$(this.options.editorRegion).hide();
+	},
+
+	renderEditor : function(thing) {
+		this.hideEverything();
+		var docJSON = JSON.stringify(this, null, ' ');
+		// render out the ace editor
+
+		this.$(this.options.editorRegion).show();
+		this.$(this.options.editorRegion).show();
+		var editor = ace.edit("ace-editor");
+		var JsonMode = require("ace/mode/json").Mode;
+		editor.getSession().setMode(new JsonMode());
+		editor.setValue(docJSON);
+		editor.selection.clearSelection();
+	},
 
 	initialize: function() {
 		this.renderNavigator();
@@ -76,6 +94,8 @@ Congo.AppLayout = Backbone.View.extend({
 	},
 
 	renderDetails : function(detailView) {
+		//pass the region in on init
+		$("#editor").hide();
 		this.$(this.options.detailRegion).empty();
 		detailView.render();
 		this.$(this.options.detailRegion).append(detailView.el);

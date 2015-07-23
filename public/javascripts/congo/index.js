@@ -16,7 +16,8 @@ Congo = {
         // the App Layout
         Congo.appLayout = new Congo.AppLayout({
             el : "#app",
-            detailRegion : "#details",
+            detailRegion: "#details",
+            editorRegion: "#editor",
             navigatorView: Congo.breadcrumbs
         })
     },
@@ -35,7 +36,15 @@ Congo.Router = Backbone.Router.extend({
     routes : {
         "" : "index",
         ":db" : "showDatabase",
-        ":db/:collection" : "showCollection"
+        ":db/:collection" : "showCollection",
+        ":db/:collection/:id" : "showEditor"
+    },
+
+    showEditor : function(db, collection, id) {
+        Congo.currentDatabase = db;
+        Congo.selectedCollection = collection;
+        Congo.selectedDocumentId = id;
+        Congo.appLayout.renderEditor({message : "Hello!"});
     },
 
     showDatabase : function(db){

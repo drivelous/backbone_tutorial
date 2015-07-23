@@ -8,6 +8,9 @@ Congo.MongoDocument = Backbone.Model.extend({
 			return baseUrl + "/" + this.id;
 		}
 	},
+	validate: function(atts, options) {
+		console.log(atts);
+	},
 
 	descriptor: function () {
 		if(this.get("name"))
@@ -33,8 +36,8 @@ Congo.MongoDocuments = Backbone.Collection.extend({
 });
 
 Congo.DocumentView = Congo.ItemView.extend({
-	tagName: "tr",
-	template: "#document-list-template",
+	template: "#document-item-template",
+	className: "document pull-left",
 	events: {
 		"click button": "remove",
 		"click a": "show"
@@ -42,8 +45,9 @@ Congo.DocumentView = Congo.ItemView.extend({
 
 	show: function (ev) {
 		ev.preventDefault();
-		var collectionName = $(ev.currentTarget).data("collection");
-		Congo.router.navigate(Congo.currentDatabase + "/" + collectionName, true);
+		Congo.navDocument(this.model.id);
+		// var collectionName = $(ev.currentTarget).data("collection");
+		// Congo.router.navigate(Congo.currentDatabase + "/" + collectionName, true);
 	},
 
 	render: function () {
@@ -56,8 +60,6 @@ Congo.DocumentView = Congo.ItemView.extend({
 });
 
 Congo.DocumentListView = Congo.ListView.extend({
-	tagName: "ul",
-	className: "thumbnails",
 	ItemView : Congo.DocumentView
 });
 
@@ -67,7 +69,7 @@ Congo.DocumentOptionView = Congo.View.extend({
 	},
 	template : "#new-document-template",
 	events: {
-		"submit form": "addDocument"
+		"click button": "addDocument"
 	},
 
 	addDocument: function (event) {
@@ -83,7 +85,7 @@ Congo.DocumentLayoutView = Congo.Layout.extend({
 		documentOptions: "#document-options"
 	},
 	layoutReady: function () {
-		var documentListListView = new Congo.CollectionListView({ collection: this.collection });
+		var documentListListView = new Congo.DocumentListView({ collection: this.collection });
 		var optionView = new Congo.DocumentOptionView({});
 		this.documentList.append(documentListListView.render().el);
 		this.documentOptions.append(optionView.render().el);
