@@ -45,9 +45,8 @@ Congo.DocumentView = Congo.ItemView.extend({
 
 	show: function (ev) {
 		ev.preventDefault();
-		Congo.navDocument(this.model.id);
-		// var collectionName = $(ev.currentTarget).data("collection");
-		// Congo.router.navigate(Congo.currentDatabase + "/" + collectionName, true);
+		var route = Congo.currentDatabase + "/" + Congo.selectedCollection + "/" + this.model.id;
+		Congo.router.navigate(route, true);
 	},
 
 	render: function () {
@@ -74,7 +73,7 @@ Congo.DocumentOptionView = Congo.View.extend({
 
 	addDocument: function (event) {
 		event.preventDefault();
-		Congo.navDocument("new");
+		// Congo.navDocument("new");
 	}
 });
 
