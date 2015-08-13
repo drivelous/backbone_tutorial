@@ -13,6 +13,8 @@ Congo = {
         Congo.collectionLayout = new Congo.CollectionLayoutView({ collection: Congo.currentCollection });
         Congo.dbLayout = new Congo.DatabaseLayoutView({ collection: Congo.databases });
         Congo.documentLayout = new Congo.DocumentLayoutView({ collection : Congo.currentDocuments });
+        Congo.editorView = new Congo.EditorView({el: "#editor"});
+
         // the App Layout
         Congo.appLayout = new Congo.AppLayout({
             el : "#app",
@@ -58,22 +60,30 @@ Congo.Router = Backbone.Router.extend({
         ":db/:collection/:id" : "showEditor"
     },
 
+    setState: function (db, collection, id) {
+        if (db) Congo.currentDatabase = db;
+        if (collection) Congo.selectedCollection = collection;
+        if (id) Congo.selectedDocumentId = id;
+    },
+
     showEditor : function(db, collection, id) {
-        Congo.currentDatabase = db;
-        Congo.selectedCollection = collection;
-        Congo.selectedDocumentId = id;
-        Congo.appLayout.renderEditor({message : "Hello!"});
+        this.setState(db, collection, id);
+        var document = new Congo.MongoDocument({_id : id})
+        document.fetch({
+            success: function(model){
+                Congo.appLayout.renderEditor(model);
+            }
+        });
     },
 
     showDatabase : function(db){
-        Congo.currentDatabase = db;
+        this.setState(db, collection, id);
         Congo.appLayout.renderDetails(Congo.collectionLayout);
         Congo.currentCollection.fetch();
     },
 
     showCollection : function(db, collection) {
-        Congo.selectedCollection = collection;
-        Congo.currentDatabase = db;
+        this.setState(db, collection, id);
         Congo.appLayout.renderDetails(Congo.documentLayout);
         Congo.currentDocuments.fetch();
     },

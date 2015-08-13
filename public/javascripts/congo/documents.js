@@ -35,6 +35,31 @@ Congo.MongoDocuments = Backbone.Collection.extend({
 	}
 });
 
+Congo.EditorView = Congo.View.extend({
+	template: "#editor-template",
+
+	initialize: function() {
+		this.render();
+	},
+
+	setModel: function(model) {
+		var docJSON = JSON.stringify(model.toJSON(), null, ' ');
+		Congo.editor.setValue(docJSON);
+		Congo.editor.selection.clearSelection();
+	},
+
+	render: function() {
+		var source = $(this.template).html();
+		var compiled = _.template(source);
+		this.$el.append(compiled);
+
+		Congo.editor = ace.edit("ace-editor");
+		var JsonMode = require("ace/mode/json").Mode;
+		Congo.editor.getSession().setMode(new JsonMode());
+		return this;
+	}
+})
+
 Congo.DocumentView = Congo.ItemView.extend({
 	template: "#document-item-template",
 	className: "document pull-left",
