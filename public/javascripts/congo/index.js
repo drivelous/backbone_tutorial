@@ -57,6 +57,7 @@ Congo.Router = Backbone.Router.extend({
         "" : "index",
         ":db" : "showDatabase",
         ":db/:collection" : "showCollection",
+        ":db/:collection/new" : "newDocument",
         ":db/:collection/:id" : "showEditor"
     },
 
@@ -64,6 +65,11 @@ Congo.Router = Backbone.Router.extend({
         if (db) Congo.currentDatabase = db;
         if (collection) Congo.selectedCollection = collection;
         if (id) Congo.selectedDocumentId = id;
+    },
+
+    newDocument: function(db, collection) {
+        this.setState(db, collection);
+        Congo.appLayout.renderEditor();
     },
 
     showEditor : function(db, collection, id) {
@@ -77,13 +83,13 @@ Congo.Router = Backbone.Router.extend({
     },
 
     showDatabase : function(db){
-        this.setState(db, collection, id);
+        this.setState(db);
         Congo.appLayout.renderDetails(Congo.collectionLayout);
         Congo.currentCollection.fetch();
     },
 
     showCollection : function(db, collection) {
-        this.setState(db, collection, id);
+        this.setState(db, collection);
         Congo.appLayout.renderDetails(Congo.documentLayout);
         Congo.currentDocuments.fetch();
     },

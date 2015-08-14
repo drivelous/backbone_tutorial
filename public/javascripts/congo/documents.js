@@ -8,9 +8,6 @@ Congo.MongoDocument = Backbone.Model.extend({
 			return baseUrl + "/" + this.id;
 		}
 	},
-	validate: function(atts, options) {
-		console.log(atts);
-	},
 
 	descriptor: function () {
 		if(this.get("name"))
@@ -42,8 +39,39 @@ Congo.EditorView = Congo.View.extend({
 		this.render();
 	},
 
+	events : {
+		"click #save-document" : "saveDocument",
+		"click #delete-document" : "deleteDocument"
+	},
+
+	saveDocument : function() {
+		var json = Congo.editor.getValue();
+		try {
+			var parsed = JSON.parse(json);
+			var newDocument = new Congo.MongoDocument(parsed);
+			newDocument.save(newDocument.attributes, {
+				success: function(model) {
+					Congo.navCollection();
+				},
+				error: function(model, result) {
+					alert("Problem on save wtf let's go dawg");
+				}
+			});
+		} catch (err) {
+			alert("We have a JSON problem");
+		}
+	},
+
+	deleteDocument : function() {
+		if(confirm("Delete this document? You sure")) {
+			this.model.destroy();
+			Congo.navCollection();
+		}
+	},
+
 	setModel: function(model) {
-		var docJSON = JSON.stringify(model.toJSON(), null, ' ');
+		this.model = model || new Congo.MongoDocument();
+		var docJSON = JSON.stringify(this.model.toJSON(), null, ' ');
 		Congo.editor.setValue(docJSON);
 		Congo.editor.selection.clearSelection();
 	},
@@ -98,7 +126,7 @@ Congo.DocumentOptionView = Congo.View.extend({
 
 	addDocument: function (event) {
 		event.preventDefault();
-		// Congo.navDocument("new");
+		Congo.navDocument("new");
 	}
 });
 
